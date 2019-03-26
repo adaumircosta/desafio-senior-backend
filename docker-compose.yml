@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  backend:
+    image: maven:3.6.0-jdk-8-alpine
+    container_name: maven
+    volumes:
+      - ./:/usr/back/
+    ports:
+      - 8080:8080
+    working_dir: /usr/back/
+    command: mvn spring-boot:run
+
+
+  postgres:
+    image: postgres:11
+    container_name: postgres
+    environment:
+      POSTGRES_DB: sandbox
+      POSTGRES_USER: adaumir
+      POSTGRES_PASSWORD: 021093
+    volumes:
+      - data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+
+
+volumes:
+  data:
+    external:
+      name: postgres
+
+networks:
+  default:
+    external:
+      name: house
