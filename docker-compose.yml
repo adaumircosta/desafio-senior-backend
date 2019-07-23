@@ -3,34 +3,24 @@ version: '3'
 services:
   backend:
     image: maven:3.6.0-jdk-8-alpine
-    container_name: maven
+    container_name: maven-teste-senior
     volumes:
       - ./:/usr/back/
+      - $HOME/.m2:/root/.m2
     ports:
-      - 8080:8080
+      - 8082:8080
     working_dir: /usr/back/
     command: mvn spring-boot:run
 
 
   postgres:
     image: postgres:11
-    container_name: postgres
+    container_name: postgres-teste-senior
     environment:
       POSTGRES_DB: sandbox
       POSTGRES_USER: adaumir
       POSTGRES_PASSWORD: 021093
     volumes:
-      - data:/var/lib/postgresql/data/
+      - $HOME/volumes-containers/postgres:/var/lib/postgresql/data/
     ports:
       - 5432:5432
-
-
-volumes:
-  data:
-    external:
-      name: postgres
-
-networks:
-  default:
-    external:
-      name: house
